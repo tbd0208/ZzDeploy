@@ -1,0 +1,5 @@
+css	C:\MY_WORKSPACE\AiFnt\WebContent\css
+mainV2	C:\MY_WORKSPACE\AiFnt\WebContent\images\mainV2
+mycarSell	C:\MY_WORKSPACE\AiFnt\WebContent\images\mainV2\mycarSell
+shCard-ucAp	C:\MY_WORKSPACE\AiFnt\WebContent\sttc\shCard\ucAp
+js	C:\MY_WORKSPACE\AiFnt\WebContent\js
