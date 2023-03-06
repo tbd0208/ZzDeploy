@@ -25,9 +25,9 @@ public class Config {
 
 	/* 로컬 설정 */
 	final public static String 
-		MYWEB_LOG_PRE_PATH = "D:\\MY_WKS\\ZzProjectDistribute\\log\\" // 로그패스
+		MYWEB_LOG_PRE_PATH = "D:\\MY_WKS\\ZzDeploy\\log\\" // 로그패스
 		,SERVER_BACKUP_PRE_PATH  = "D:\\00 servers\\" // 백업위치
-		,BOOK_MARK_PATH = "D:\\MY_WKS\\ZzProjectDistribute\\WebApp\\projectFileBookmark.txt"
+		,BOOK_MARK_PATH = "D:\\MY_WKS\\ZzDeploy\\WebApp\\projectFileBookmark.txt"
 	;
 	
 	/* 로컬 프로젝트 정보 */
