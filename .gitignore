@@ -1,3 +1,6 @@
+# Config file
+*.yml
+
 # Compiled class file
 *.class
 
