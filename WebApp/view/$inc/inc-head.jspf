@@ -1,0 +1,27 @@
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="STYLESHEET" type="text/css" href="/style.css">
+	<link rel="shortcut icon" href="#">
+	
+	<script type="text/javascript" src="/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery/jquery.cookie.js"></script>
+	
+	<script type="text/javascript" src="/js/object.prototype.fns.js"></script>
+	<script type="text/javascript" src="/js/default.js"></script>
+	<script type="text/javascript" src="/js/jquery.tabBind.js"></script>
+	<script type="text/javascript" src="/js/Ajax.js"></script>
+	
+	<title>ProjectDistribute</title>
+	<script>
+	window.onerror = function(a){
+		alert(a);
+	};
+	$.fn.cookie = function(){
+		if(this.length===0 && !this.name) return this;
+		$(this).change(function(){
+			$.cookie(this.name,this.value);
+		});
+		return this;
+	}
+	</script>
