@@ -1,0 +1,65 @@
+### PATHS
+LOCAL_PROJECT_PRE_PATH : D:\MY_WKS\
+WORKINGSET_XML_PATH : D:\MY_WKS\.metadata\.plugins\org.eclipse.ui.workbench\workingsets.xml
+
+MYWEB_LOG_PRE_PATH : D:\MY_WKS\ZzDeploy\log\
+SERVER_BACKUP_PRE_PATH : D:\00 servers\
+BOOK_MARK_PATH : D:\MY_WKS\ZzDeploy\WebApp\projectFileBookmark.txt
+
+### LOGIN INFO
+login :
+  BAT : [id,password]
+  WAS : [id,password]
+  
+WebFtpClientInfos :
+  AI_DEV_ONE00 : 192.168.1.150 
+  AI_OPE_WAS01 : 172.30.0.8    
+  AI_OPE_WAS02 : 172.30.0.10   
+  AI_OPE_WEB01 : 117.52.102.69 
+  AI_OPE_WEB02 : 117.52.102.72 
+  SC_OPE_ONE00 : 192.168.254.32
+  
+WebFtpClients :
+  AI_DEV_BAT : ftp,  AI_DEV_ONE00, BAT
+  AI_OPE_BAT : ftp,  AI_OPE_WAS02, BAT 
+  AI_DEV_ONE : ftp,  AI_DEV_ONE00, WAS
+  AI_OPE_WEB : ftp,  AI_OPE_WEB01, WAS, AI_OPE_WEB02, WAS
+  AI_OPE_WAS : ftp,  AI_OPE_WAS01, WAS, AI_OPE_WAS02, WAS
+  SC_OPE_ONE : sftp, SC_OPE_ONE00, WAS
+
+DistributeInfos :
+  DI_SC_ONE  : SC,SC_ONE_PATH, OPE,SC_OPE_ONE, 
+  DI_AI_BAT  : AI,AI_BAT_PATH, OPE,AI_OPE_BAT, DEV,AI_DEV_BAT
+  DI_AI_WEB  : AI,AI_WEB_PATH, OPE,AI_OPE_WEB, DEV,AI_DEV_ONE
+  DI_AI_WAS  : AI,AI_WAS_PATH, OPE,AI_OPE_WAS, DEV,AI_DEV_ONE
+  DI_AI_WEBP : AI,AI_WEB_PATH, OPE,AI_OPE_WEB, DEV,AI_DEV_ONE, STG,AI_OPE_WEB
+  DI_AI_WASP : AI,AI_WAS_PATH, OPE,AI_OPE_WAS, DEV,AI_DEV_ONE, STG,AI_OPE_WAS
+  
+  
+### Project Info 
+projectInfo : 
+  AhRtc : 
+	label : 소매전산,
+	name : AhRtc, 
+	ftp : rcar,
+	ftpClassFolder : /WEB-INF/classes,
+	deployInfo : [DI_AI_WEBP,DI_AI_WASP]
+	deployFolder : 
+		STG : rcarp
+
+
+#Projects :
+#  소매전산
+#  오사
+#
+#WebFtpClientInfo :
+#  AI_DEV_ONE00 : 192.168.1.150
+#  AI_OPE_WAS01 : 172.30.0.8
+#  AI_OPE_WAS02 : 172.30.0.10
+#  AI_OPE_WEB01 : 117.52.102.69
+#  AI_OPE_WEB02 : 117.52.102.72
+#  SC_OPE_ONE00 : 192.168.254.32
+#  
+#WebFtpClient :
+#  AI_DEV_ONE00 : [aibatch,ai1234ai]
+  
