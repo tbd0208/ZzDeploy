@@ -24,9 +24,16 @@ public class ApacheWebFtpClient implements WebFtpClient{
 	private String id;
 	private String pw;
 	
-	public ApacheWebFtpClient(WebFtpClientInfo serverInfo,String id,String pw) {
+	public ApacheWebFtpClient(WebFtpClientInfo serverInfo,String[] loginInfo) {
 		this.name = serverInfo.name;
 		this.ip = serverInfo.ip;
+		this.id = loginInfo[0];
+		this.pw = loginInfo[1];
+	}
+	
+	public ApacheWebFtpClient(String name,String ip,String id,String pw) {
+		this.name = name;
+		this.ip = ip;
 		this.id = id;
 		this.pw = pw;
 	}
@@ -53,7 +60,7 @@ public class ApacheWebFtpClient implements WebFtpClient{
 			client = new FTPClient();
 			client.setRemoteVerificationEnabled(false); // FTP response 421 received. Server closed connection
 			client.setControlEncoding("UTF-8");
-			client.connect(getIp());
+			client.connect(ip);
 			int replyCode = client.getReplyCode();
 			if (!FTPReply.isPositiveCompletion(replyCode)) {
 				this.result = RESULT_FAIL_CONNECT;

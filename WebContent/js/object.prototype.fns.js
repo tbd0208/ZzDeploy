@@ -55,36 +55,37 @@ Number.prototype.round = function(n){
 	return (Math.round(this/n)*n).toFixed(n);
 }
 
-Date.prototype.format = function(f) {
-    if (!this.valueOf()) return " ";
- 
-    var weekName = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
-    var d = this;
-     
-    return f.replace(/(yyyy|yy|MM|dd|E|hh|mm|ss|a\/p)/gi, function($1) {
-        switch ($1) {
-            case "yyyy": return d.getFullYear();
-            case "yy": return (d.getFullYear() % 1000).zf(2);
-            case "MM": return (d.getMonth() + 1).zf(2);
-            case "dd": return d.getDate().zf(2);
-            case "E": return weekName[d.getDay()];
-            case "HH": return d.getHours().zf(2);
-            case "hh": return ((h = d.getHours() % 12) ? h : 12).zf(2);
-            case "mm": return d.getMinutes().zf(2);
-            case "ss": return d.getSeconds().zf(2);
-            case "a/p": return d.getHours() < 12 ? "오전" : "오후";
-            default: return $1;
-        }
-    });
+Date.prototype.format = function(fmt) {
+	var d = this;
+	return fmt.replace(/(yyyy|yy|MM|dd|EE|E|KK|K|HH|hh|mm|sss|ss|ms|tt|a\/p)/g,function($1) {
+		switch($1){
+		case "yyyy": return d.getFullYear();
+		case "yy"  : return zf(d.getFullYear()%100);
+		case "MM"  : return zf(d.getMonth()+1);
+		case "dd"  : return zf(d.getDate());
+		case "EE"  : return ["sun","mon","tues","wednes","thurs","fri","satur"][d.getDay()]+'day';
+		case "E"   : return ["sun","mon","tue","wed","thu","fri","sat"][d.getDay()];
+		case "KK"  : return "일월화수목금토"[d.getDay()]+'요일';
+		case "K"   : return "일월화수목금토"[d.getDay()];
+		case "HH"  : return zf(d.getHours());
+		case "hh"  : return zf(d.getHours()%12||12);
+		case "mm"  : return zf(d.getMinutes());
+		case "ss"  : return zf(d.getSeconds());
+		case "ms"  : case "sss": return zf(d.getMilliseconds());
+		case "a/p" : return d.getHours()<12?"오전":"오후";
+		case "tt"  : return d.getHours()<12?"AM":"PM";
+		default: return $1;
+		}
+	});
+	function zf(v){return v<10?'0'+v:v;}
 };
+
 Date.prototype.addDays = function(days){
 	this.setTime(this.getTime()+(days*24*60*60*1000));
 	return this;
 };
 Date.prototype.addMonths = function(months){
-//	var d = this.getDate();
 	this.setMonth(this.getMonth()+months);
-//	this.setDate(d);
 	return this;
 };
 Date.prototype.addYears = function(year){

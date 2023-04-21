@@ -1,23 +1,26 @@
+
 new Vue({el: "#JEUS",data : {tab : null}});
 
 new Vue({
-	data(){
-		return {a:1}
-	}
+	data(){ return {
+		a : 1
+	}}
+	
 	,computed : {
 		c1 : ()=>'c1'
 	}
+	
 	,created() {
-		console.info(this.$data);
-		console.info(this.a);
-		console.info(this.$computed);
-		console.info(this.c1);
-		console.info("##### DEFAULT TEST");
+//		console.info(this.$data);
+//		console.info(this.a);
+//		console.info(this.$computed);
+//		console.info(this.c1);
+//		console.info("##### DEFAULT TEST");
 	}
 });
 
 function qFetch(url,fn){
-	fetch(url).then(r=>r.ok?r.json():-1).then(v=>v.state==='ok'?v.data:v).then(fn||(data=>console.info(data)));
+	fetch(url).then(r=>r.ok?r.json():-1).then(v=>v.state==='ok'?v.data:v).then(fn || console.info );
 }
 
 // Vue.component("cm-tab",{
@@ -27,19 +30,28 @@ function qFetch(url,fn){
 
 
 Vue.component("ws-tab",{
+	
 	template:'#wsTab'
-	,props : {tabs:Array,tabIndex:Number,pathType:String}
+		
+	,props : {
+		tabs:Array,
+		tabIndex:Number,
+		pathType:String
+	}
+
 	,data(){ return {
 		tab : null
 	}}
+	
 	,computed : {
 		bodys(){
-			return this.tabs&&new Array(this.tabs.length);	
+			return this.tabs && new Array(this.tabs.length);	
 		}
 	}
+	
 	,watch : {
 		tab(){
-			console.info('test : ' + this.tab);
+//			console.info('test : ' + this.tab);
 		}
 		,tabs(){
 			var cTab = this.tab||0;
@@ -47,10 +59,12 @@ Vue.component("ws-tab",{
 			this.headClick(cTab);
 		}
 	}
+	
 	,methods : {
 		headClick(i){
 			if(this.bodys[i]) this.tab = i;
 			else {
+				
 				if(app.tab===0){
 					qFetch('getWorkingsetGroup.do?v='+this.tabs[i],r=>{
 						this.bodys[i] = r;
@@ -62,8 +76,13 @@ Vue.component("ws-tab",{
 						});
 					});
 				}else if(app.tab===1){
+					
+					const f = document.forms.sourceMng;
+					
 					var param = 'path='+encodeURIComponent(this.tabs[i].path);
-					if(app.limitDays) param+='&limitDays='+app.limitDays;
+					if(f.limitDays) param+='&limitDays='+f.limitDays.value;
+					param += '&extension='+ $(f.extension).get().map(e => e.checked ? e.value : null ).filter(Boolean).join(',',-1);
+					
 // 					'/projectFileMng/getRecentFiles.do?path='+this.tabs[i].localPath+"&limitDays="+app.limitDays
 					qFetch('/projectFileMng/getRecentFiles.do'+(param===''?'':'?'+param),r=>{
 						this.bodys[i] = r;
@@ -92,18 +111,24 @@ Vue.component("ws-tab",{
 /* ### vue */
 var app = new Vue({
 	el: "#sourceMng"
-	,prop : {
+	,props : {
+		
 	}
+
+	,created() {
+	}
+	
 	,data: {
 		PROJECT_INFO_MAP
 		, DSTR_LEVELS
+		, PROJECT_NAMES
+				
+		,distributeLevel : localStorage.getItem('distributeLevel')
+		,project : localStorage.getItem('project')
+//		,limitDays : localStorage.getItem('limitDays')||'3'
 		
-		,dstr : ['DEV','STG','OPE','ALL']
-		,projectNames : ["AiNf","AhRtc","AiOn","AiFnt","AiMgr","Carnote","AhFnt","ncert_admin"] // touch
-		
-		,distributeLevel : $.cookie('distributeLevel')
-		,project : $.cookie('project')
-		,limitDays : $.cookie('limitDays')||'3'
+//		,extensions : ['jsp','js','css','html','etc']
+//		,extension : $.cookie('extension') || [true,true]
 		
 		,tab : 0
 		,tabBox01 : []
@@ -111,6 +136,25 @@ var app = new Vue({
 		,pjTabBox : {}
 	
 	}
+	,watch : {
+//		distributeLevel(v,before){
+//			localStorage.setItem('distributeLevel',v);
+//		}
+//		,fieldShow(v,before){
+//			localStorage.setItem('project',v);
+//		}
+//		,limitDays(v,before){
+//			localStorage.setItem('limitDays',v);
+//		}
+		
+		/*, $data: {
+			handler : function(...vs) {
+				console.log(vs)
+			}
+			,deep: true
+		}*/
+	}
+	
 	,methods : {
 		test(){
 			console.info('test');	
@@ -118,7 +162,7 @@ var app = new Vue({
 		,touchJsp(distributeLevel,project){
 			alert(JSON.stringify(Ajax.get("/svrCmd/touch.do",{distributeLevel,project})));
 		}
-		,clickWsTab(reloadable){
+		,onTabByWorkingset(reloadable){
 			if(reloadable===true || !this.tabBox01) fetch('getWorkingsetGroupNames.do').then(r=>r.ok?r.json():-1).then(v=>v.state==='ok'?v.data:v).then(data=>{
 // 				console.info(data);
 				this.tabBox01 = data;
@@ -126,9 +170,11 @@ var app = new Vue({
 // 			tabBox01[0] = 'ws-tab';
 			this.tab = 0;
 		}
-		,clickPjTab(x){
+		,onTabByProject(x){
+			const f = document.forms.sourceMng;
+			
 			/* [AhRtc] | WAS : /data/src/was/ | 192.168.1.150 | 172.30.0.8 | 172.30.0.10 | WEB : /data/src/web/ | 192.168.1.150 | 117.52.102.69 | 117.52.102.72 | */
-			fetch('/projectFileMng/getFolders.do?path='+encodeURIComponent(x.localPath)+"&limitDays="+this.limitDays).then(r=>r.ok?r.json():-1).then(v=>v.state==='ok'?v.data:v).then(data=>{
+			fetch('/projectFileMng/getFolders.do?path='+encodeURIComponent(x.localPath)+"&limitDays="+f.limitDays.value).then(r=>r.ok?r.json():-1).then(v=>v.state==='ok'?v.data:v).then(data=>{
 // 				console.info(data);
 				$("#projectAttrBx").text(x.simpleProjectInfo);
 				this.tabBox02 = data;
@@ -142,7 +188,7 @@ var app = new Vue({
 		}
 		,reload(){
 			qFetch('workingset_init.do',function(){
-				app.clickWsTab(true);
+				app.onTabByWorkingset(true);
 			});
 		}
 	}
@@ -151,23 +197,12 @@ var app = new Vue({
 	
 	// {{ data | filter }}
 	,filters:{}
-	,watch : {
-		distributeLevel(){
-				
-		}
-		/* $data: {
-			handler : function(...vs) {
-				console.log(vs)
-			}
-			,deep: true
-		} */
-	}
+	
 });
 
-function viewProjectAttr(v){
-	/* [AhRtc] | WAS : /data/src/was/ | 192.168.1.150 | 172.30.0.8 | 172.30.0.10 | WEB : /data/src/web/ | 192.168.1.150 | 117.52.102.69 | 117.52.102.72 | */
-	$("#projectAttrBx").text(v);
-}
+//function viewProjectAttr(v){
+//	$("#projectAttrBx").text(v);
+//}
 function getTemplate(nm){
 	return document.forms.template[nm].innerText;
 }
@@ -216,3 +251,4 @@ function toSimpleFileSize(v){
 	if(v<1024*1024) return '1Mb';
 	return parseInt(v/1024/1024)+'Mb';
 }
+

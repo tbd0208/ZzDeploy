@@ -86,6 +86,8 @@ $(function(){
 						var param = '';
 						var limitDays = $("#limitDays").val();
 						if(limitDays) param+='limitDays='+limitDays;
+						param += '&extension='+ $(f.extension).get().map(e => e.checked ? e.value : null ).join(',',-1);
+						
 						return '/projectFileMng/getRecentFiles.do'+(param===''?'':'?'+param);
 					}
 					,dataParam : function(p){ return {path:p.tabHead.dataset.path};}
@@ -433,18 +435,18 @@ $(function(){
 	
 	var f = document.forms.sourceMng;
 	
-	Form.visitEsByTagType(f,{
+	Forms.visitEsByTagType(f,{
 		text : function(t){
 		},
 		select : function(t){
-			Form.bindCookie(t);
+			Forms.bindStorage(t);
 		}, 
 		checkbox : function(t){
-			Form.bindCookie(t);
+			Forms.bindStorage(t);
 			bindCheckboxCheckedLabel(t);
 		},
 		radio : function(t){
-			Form.bindCookie(t);
+			Forms.bindStorage(t);
 			bindRadioCheckedLabel(t);
 		},
 		button : function(t){

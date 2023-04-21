@@ -28,12 +28,16 @@ public class SecretWebFtpClient implements WebFtpClient{
 	private Session session;
 	private ChannelSftp channel;
 	
+	public SecretWebFtpClient(WebFtpClientInfo serverInfo,String[] loginInfo) {
+		this(serverInfo,loginInfo[0],loginInfo[1]);
+	}
+	
 	public SecretWebFtpClient(WebFtpClientInfo serverInfo,String id,String pw) {
 		this.name = serverInfo.name;
 		this.ip = serverInfo.ip;
 		
 		try {
-			session = jsch.getSession(id,ip);
+			session = jsch.getSession(id,ip,22);
 			session.setPassword(pw);
 			session.setTimeout(10000);
 			

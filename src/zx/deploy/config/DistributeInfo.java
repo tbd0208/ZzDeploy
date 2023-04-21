@@ -1,6 +1,7 @@
 package zx.deploy.config;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import zz.server.ftp.WebFtpClient;
 
@@ -10,9 +11,12 @@ public class DistributeInfo {
 	private String prePath;
 	private WebFtpClient[][] list = new WebFtpClient[DistributeLevel.values().length][];
 	
-	public DistributeInfo(String serverGroupName,String svrPrePath,WebFtpClient...webFtpClients) {
+	public DistributeInfo(String serverGroupName,String svrPrePath,Map<String,WebFtpClient[]> WebFtpClients) {
 		this.serverGroupName = serverGroupName;
 		this.prePath = svrPrePath;
+		WebFtpClients.forEach((k,v)->{
+			list[DistributeLevel.valueOf(k).ordinal()] = v;
+		});
 	}
 	
 	public String getServerGroupName() {
@@ -22,10 +26,10 @@ public class DistributeInfo {
 		return prePath;
 	}
 
-	public DistributeInfo put(DistributeLevel distributeLevel, WebFtpClient...webFtpClients) {
-		list[distributeLevel.ordinal()] = webFtpClients;
-		return this;
-	}
+//	public DistributeInfo put(DistributeLevel distributeLevel, WebFtpClient...webFtpClients) {
+//		list[distributeLevel.ordinal()] = webFtpClients;
+//		return this;
+//	}
 	public WebFtpClient[] get(DistributeLevel distributeLevel) {
 		return list[distributeLevel.ordinal()];
 	}

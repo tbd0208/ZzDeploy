@@ -129,6 +129,7 @@ thead td{background:#eee;}
 .extension.off:BEFORE{content:'○';}
 .extension:HOVER:BEFORE{font-weight: bold;text-decoration: underline;}
 
+.btnDownFormServerAll{line-height:1.6em; padding:3px 6px;margin:-3px;display: inline-block;vertical-align: top;}
 .btnUploadAll{line-height:1.6em; padding:3px 6px;margin:-3px;display: inline-block;vertical-align: top;}
 
 #JEUS{position:absolute;right:0px;top:80px;z-index: 1100;}

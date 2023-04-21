@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,6 +23,7 @@ public class MyServlet extends HttpServlet{
 	
 	private Map<String,ReflectClassInfo> urlMappingInfoMap = new HashMap<>();
 	private Map<String,Method> urlMappingMethodMap = new HashMap<>();
+	private Map<Class,Object> typeBeanMap = new HashMap<>();
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException{
@@ -77,13 +77,21 @@ public class MyServlet extends HttpServlet{
 			ReflectClassInfo info = urlMappingInfoMap.get(urlBody);
 			if(info==null) throw new Exception("404 : " + urlBody);
 			if(info.intance==null) {
+				
+				// 생성자 및 Class를 이용한 의존성 주입
 				for(Constructor<?> constructor : info.type.getConstructors()){
 					if( Modifier.isPublic(constructor.getModifiers()) ) {
 						Class<?>[] parameterTypes = constructor.getParameterTypes();
 						Object[] cparameterValues = new Object[parameterTypes.length];
 						for(int i = 0;i<parameterTypes.length;i++){
 							Class<?> class1 = parameterTypes[i];
-							cparameterValues[i] = class1.newInstance();
+							Object instance = typeBeanMap.get(class1);
+							if(instance==null) {
+								cparameterValues[i] = class1.newInstance();
+								typeBeanMap.put(class1,cparameterValues[i]);
+							}else {
+								cparameterValues[i] = instance;
+							}
 						}
 						info.intance = constructor.newInstance(cparameterValues);
 //						Parameter[] cps = constructor.getParameters();

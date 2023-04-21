@@ -29,11 +29,11 @@ public class SrcMngController{
 	
 	final private Logger sMngLog = QQFileLogger.getLogger(Config.MYWEB_LOG_PRE_PATH+"srcMng.log",true);
 	final private WorkingsetMng wsMng = new WorkingsetMng(Config.WORKINGSET_XML_PATH);
-	final String a;
+	private final UploadDateLog uploadDateLog;
 	
-	public SrcMngController(String a){
+	public SrcMngController(UploadDateLog uploadDateLog){
+		this.uploadDateLog = uploadDateLog;
 		wsMng.init();
-		this.a = a;
 	}
 	
 	public QQMap main(){
@@ -66,7 +66,7 @@ public class SrcMngController{
 		for (Workingset workingset : workingsetGroup){
 			List<ProjectFile> projectFiles = workingset.getProjectFiles();
 			for (ProjectFile projectFile : projectFiles){
-				Object date = UploadDateLog.getDate(projectFile);
+				Object date = uploadDateLog.getDate(projectFile);
 				projectFile.setNote(date==null?"":String.valueOf(date)); // set 
 			}
 		}
@@ -150,7 +150,7 @@ public class SrcMngController{
 				}
 				
 //				logMsg(dLevel,path,group,distributeInfo.getServerGroupName(),servers,webFtpClients);
-				if(isOpe) UploadDateLog.put(projectPath);
+				if(isOpe) uploadDateLog.put(projectPath);
 			}
 			
 			logMsg.append(']').append('[').append(group).append("] ").append(path);

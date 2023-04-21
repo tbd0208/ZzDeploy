@@ -8,7 +8,7 @@
 	<script type="text/javascript" src="/js/jquery/jquery.cookie.js"></script>
 	
 	<script type="text/javascript" src="/js/object.prototype.fns.js"></script>
-	<script type="text/javascript" src="/js/default.js"></script>
+<!-- 	<script type="text/javascript" src="/js/default.js"></script> -->
 	<script type="text/javascript" src="/js/jquery.tabBind.js"></script>
 	<script type="text/javascript" src="/js/Ajax.js"></script>
 	

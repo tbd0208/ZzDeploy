@@ -39,6 +39,12 @@ public class ProjectFileMngController{
 		);
 	}
 	
+	private final UploadDateLog uploadDateLog;
+	
+	public ProjectFileMngController(UploadDateLog uploadDateLog){
+		this.uploadDateLog = uploadDateLog;
+	}
+	
 	public Object getBookmarks() throws IOException {
 		List<String> readLines = FileUtils.readLines(Config.BOOK_MARK_PATH);
 		
@@ -160,7 +166,7 @@ public class ProjectFileMngController{
 		return OK(list);
 	}
 	
-	public Object getRecentFiles(String path,Integer limitDays) {
+	public Object getRecentFiles(String path,Integer limitDays,final String extension) {
 //		long ss = System.currentTimeMillis();
 //		limitDays = 30;
 		List<QQMap> list = new ArrayList<>();
@@ -172,6 +178,8 @@ public class ProjectFileMngController{
 			timeInMillis = cld.getTimeInMillis();
 		}
 		
+		String[] extensions = extension==null?null:extension.split(",");
+				
 		String pn = getProjectName(path);
 		HashSet<String> filterPaths = new HashSet<>();
 		String[] pjDirs = PJ_DIRS_MAP.val(pn);
@@ -193,9 +201,14 @@ public class ProjectFileMngController{
 					return true;
 				}
 				public boolean filterFile(File f){
-					if(f.lastModified() > s) {
-						String fileName = f.getName();
-						return fileName.charAt(0)!='.' && !fileName.endsWith(".sql");
+					if(f.lastModified() <= s) return false;
+					
+					String fileName = f.getName();
+					if(fileName.charAt(0)=='.') return false;
+					
+					if(extensions==null) return true;
+					for(String ext : extensions){
+						if(fileName.endsWith(ext)) return true;
 					}
 					return false;
 				}
@@ -207,7 +220,7 @@ public class ProjectFileMngController{
 						map.put("subList",subList = new ArrayList<>());
 						list.add(map);
 					}
-					subList.add(toMapFile(f).take("note",UploadDateLog.getDate(f)));
+					subList.add(toMapFile(f).take("note",uploadDateLog.getDate(f)));
 					return true;
 				}
 			}

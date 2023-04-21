@@ -13,7 +13,7 @@
 	
 	<%@include file="/view/$inc/inc-head.jspf"%>
 	<link href="srcMng.css" rel="STYLESHEET" type="text/css" lang="utf-8">
-	<script src="/js/Form.js" type="text/javascript"></script>
+	<script src="/js/Forms.js" type="text/javascript"></script>
 	<script src="/js/Table.js" type="text/javascript"></script>
 	<script src="srcMng.js" type="text/javascript"></script>
 </head>
@@ -23,12 +23,12 @@
 		<div class='topMenu'>
 			<div class='dstrStatusBox'>
 				
-				<!-- MAIN ICON : DSTR MARKS -->
+				<!-- MAIN ICON with DSTR MARKS -->
 				<div id='prjDstr_home' class="dstrMarkHome">
 					<i v-for="v in ['DEV','STG','OPE','OPE']" class='dstrMark' :dstr='v'></i>
 				</div>
 				
-				<!-- DEPLOY LEVEL BUTTONS -->
+				<!-- DEPLOY LEVELS SWITCH -->
 				<label v-for="(v,i) in ['DEV','STG','OPE','ALL']" class='dstrStatus' :dstr='v'>
 					<input type="radio" class='rectBox' v-model="distributeLevel" name="distributeLevel" :value="v" :accesskey="'QWER'[i]">{{v}}
 				</label>
@@ -37,8 +37,8 @@
 			
 			<!-- PROJECTS TOUCH-->
 			<div class='projects'>
-				<label v-for="x in projectNames">
-					<input type="radio" v-model="project" name='project' :value="x">{{x}}
+				<label v-for="x in PROJECT_NAMES">
+					<input type="radio" name='project' :value="x" v-model="project">{{x}}
 				</label>
 				<button type='button' class='dstrBtn' v-on:click="touchJsp(distributeLevel,project)">touch</button>
 			</div>
@@ -60,42 +60,42 @@
 			</div>
 			<div>
 				<span>limitDays : </span>
-				<select id='limitDays' name='limitDays' v-model="limitDays">
+				<select id='limitDays' name='limitDays'>
 					<option value='1'>1<option value='3' selected="selected">3<option value='7'>7<option value='31'>31<option value='365'>365<option value=''>전체</select>
 				<span class="menu-reload btnTxt">[↻]</span>
 			</div>
 			<div>
-				<span v-for="x in ['java','xml','jar']" class="extension" :extension="x">{{x.toUpperCase()}}</span> | 
-				<span v-for="x in ['jsp','js','css','html','etc']" class="extension" :extension="x">{{x.toUpperCase()}}</span>
+				<label v-for="x in ['java','xml','jar']" class="extension" :extension="x">
+					<input type="checkbox" name='extension' :value="x">{{x.toUpperCase()}}
+				</label> | 
+				<label v-for="x in ['jsp','js','css','html','etc']" class="extension" :extension="x">
+					<input type="checkbox" name='extension' :value="x">{{x.toUpperCase()}}
+				</label>
 			</div>
 		</div>
 		
 		<!-- ### CONTENTS -->
 		<div id='tabBox-00' class='flex-c list-body'>
 			<div class='tabHeadBox'>
-				<div class='tabHead workingSet' v-on:click='clickWsTab'>
+				<div class='tabHead workingSet' v-on:click='onTabByWorkingset' tab-type='workingset'>
 					★ WORKING SET <span class='reload btnTxt' v-on:click=reload>[↻]</span>
 				</div>
 				<!-- <div class='tabHead'>
 						★ Bookmark<span class='reload btnTxt'>[↻]</span>
 				</div> -->
 				
-				<div v-for="(x,k) in {AhRtc:PROJECT_INFO_MAP['AhRtc']}" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='clickPjTab(x)'>
-					<!-- PROJECT NAME -->
-					<span style='font-weight: bold;'>{{k}}</span>(<span>{{getServerProjectNames(x)}}</span>)
-					<span class='reload btnTxt'>[↻]</span>
-					
-					<!-- PROJECT DSTR MARK -->
+				<!-- PROJECT NAME -->
+				<div v-for="(x,k) in {AhRtc:PROJECT_INFO_MAP['AhRtc']}" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='onTabByProject(x)' tab-type='project'>
+					<span style='font-weight: bold;'>{{k}}</span>(<span>{{getServerProjectNames(x)}}</span>) <span class='reload btnTxt'>[↻]</span>
+					<!-- DSTR MARK -->
 					<div class='dstrMarkBox'>
 						<template v-for="level in DSTR_LEVELS">
-							<span v-for="a,i in x.was.dstrMap[level]" class='dstrMark' :dstr='level' 
-								:title='(x.web?.dstrMap[level][i].ip||"NONE") +" / "+ x.was.dstrMap[level][i].ip'
-							></span>
+							<span v-for="a,i in x.was.dstrMap[level]" class='dstrMark' :dstr='level' :title='(x.web?.dstrMap[level][i].ip||"NONE") +" / "+ x.was?.dstrMap[level][i].ip'></span>
 						</template>
 					</div>
 				</div>
 				
-				<div v-for="(x,k) in PROJECT_INFO_MAP" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='clickPjTab(x)'>
+				<div v-for="(x,k) in PROJECT_INFO_MAP" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='onTabByProject(x)'>
 					
 					<!-- PROJECT NAME -->
 					<span style='font-weight: bold;'>{{k}}</span>(<span>{{getServerProjectNames(x)}}</span>)
@@ -114,7 +114,7 @@
 			<div class='tabBodyBox'>
 				<ws-tab :tabs="tabBox01" class='tabBody' :tab-index="0" path-type='/' id='tabBox-01'>## WORKING_SET ##</ws-tab>
 				<ws-tab :tabs="tabBox02" class='tabBody' :tab-index="1" path-type='\' id='tabBox-AhRtc'></ws-tab>
-<!-- 				<div class='tabBody' id='tabBox-01'>## WORKING_SET ##</div> -->				
+<!-- 				<div class='tabBody' id='tabBox-01'>## WORKING_SET ##</div> -->
 	<!-- 			<div class='tabBody' id='tabBox-02'>## PROJECT BOOKMARK ##</div> -->
 				<div v-for="x in PROJECT_INFO_MAP" class='tabBody'>No Loading</div>
 			</div>

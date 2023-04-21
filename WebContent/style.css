@@ -139,11 +139,15 @@ label:not([class])>input[type=checkbox]{display: inline-block;vertical-align: in
 label:not([class])>input[type=radio]{margin-right: 1.1em;}
 input[type=radio]:AFTER{cursor: pointer;content: '○';color: inherit;}
 input[type=radio]:CHECKED:AFTER{content: '●';color: inherit;}
-
 label.radio{background: #fff;border-bottom:4px solid #ddd;padding-bottom:0; border-radius: 2em;}
 label:not([class]){background: #fff;border-bottom:4px solid #ddd;padding-bottom:0;}
 label[CHECKED]:not([class]){border-bottom-color:#222;}
 label:not([class]):HOVER{background: #eee;}
+
+label.extension{background: #fff;border-bottom:4px solid #ddd;padding-bottom:0;}
+label[CHECKED].extension{border-bottom-color:#222;}
+label.extension:HOVER{background: #eee;}
+label.extension>input[type=checkbox]{display: inline-block;vertical-align: inherit;/* margin-right: 1.1em; */width: 0;height:100%;line-height:1em;}
 
 /* TABLE */
 table{border-collapse:collapse;border-spacing:0;}

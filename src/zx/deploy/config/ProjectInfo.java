@@ -24,10 +24,11 @@ public final class ProjectInfo{
 	public ProjectInfo(String projectNicName,String projectName,String severProjectName,String severClassesFolder,DistributeInfo web,DistributeInfo was) {
 		this.nicName = projectNicName;
 		this.name = projectName;
+		this.localPath = Config.LOCAL_PROJECT_PRE_PATH+projectName;
 		this.severProjectName = severProjectName;
 		this.severClassesFolder = severClassesFolder;
-		this.was = was;
 		this.web = web;
+		this.was = was;
 	}
 	
 	public void setServerProjectName(DistributeLevel distributeLevel,String severProjectName) {
