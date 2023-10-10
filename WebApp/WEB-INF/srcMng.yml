@@ -1,0 +1,54 @@
+#####################################################################################################################
+# 서버정보 #
+## 정보구조 : 개별서버 > 서버그룹 > 배포레벨별 배포정보 > 프로젝트 정보
+## 배포레벨
+### OPE : 운영계 배포
+### STG : 준운영계 배포
+### DEV : 개발계 배포
+#####################################################################################################################
+
+### 서버그룹 - WEB,WAS,BATCH 등 그룹
+ftpWebFtpClientsGroup : # ApacheWebFtpClient
+- &AI_DEV_ONE [[AI_DEV_ONE00, 192.168.1.150]] # 개발계 WEB+WAS
+- &AI_OPE_WEB [[AI_OPE_WEB01, 117.52.102.69],[AI_OPE_WEB02, 117.52.102.72]] # WEB GROUP
+- &AI_OPE_WAS [[AI_OPE_WAS01, 172.30.0.8   ],[AI_OPE_WAS02, 172.30.0.10  ]] # WAS GROUP
+- &AI_DEV_BAT [[AI_DEV_ONE00, 192.168.1.150]]
+- &AI_OPE_BAT [[AI_OPE_WAS02, 172.30.0.10  ]]
+
+sftpWebFtpClientsGroup : # SecretWebFtpClient
+- &SC_OPE_ONE [[SC_OPE_ONE00,192.168.254.32]] # 자차용 운영계
+
+### 배포레벨별 배포정보
+deploy : # DistributeInfo[] / 배포그룹구분 [서버별칭, 배포폴더, {배포레벨별 서버그룹}]
+# 오토인사이드 용
+- &DI_AI_WEBP [ AI, /data/src/web/, { OPE: *AI_OPE_WEB, DEV: *AI_DEV_ONE, STG: *AI_OPE_WEB }] # 스테이지포함 WEB배포
+- &DI_AI_WASP [ AI, /data/src/was/, { OPE: *AI_OPE_WAS, DEV: *AI_DEV_ONE, STG: *AI_OPE_WAS }] # 스테이지포함 WAS배포
+- &DI_AI_WEB  [ AI, /data/src/web/, { OPE: *AI_OPE_WEB, DEV: *AI_DEV_ONE }] # WEB배포
+- &DI_AI_WAS  [ AI, /data/src/was/, { OPE: *AI_OPE_WAS, DEV: *AI_DEV_ONE }] # WAS배포
+- &DI_AI_BAT  [ AI, /data/src/,     { OPE: *AI_OPE_BAT, DEV: *AI_DEV_BAT }] # 배치배포
+# 자차 용 
+- &DI_SC_ONE  [ SC, /DATA/src/was/, { OPE: *SC_OPE_ONE }] # 자차서버 배포
+
+#####################################################################################################################
+# 로컬 및 FTP 개발 변경 사항 #
+#####################################################################################################################
+### 프로젝트정보 
+projectInfo : # List<Object[]> 
+# [!!로컬-플젝!!, FTP-플젝, STG용, FTP클래스폴더, WEB deloy, WAS deploy, 프로젝트닉네임]
+- [AhOffice,ahoffice, null,     /WEB-INF/classes, *DI_AI_WEB,  *DI_AI_WAS , AH오피스]
+- [AiMgr,   aimgr,    null,     /WEB-INF/classes, *DI_AI_WEB,  *DI_AI_WAS , 오사B/O]
+- [AhRtc,   rcar,     rcarp,    /WEB-INF/classes, *DI_AI_WEBP, *DI_AI_WASP, 소매전산]
+- [SCAR02,  scar,     null,     /WEB-INF/classes, null      ,  *DI_SC_ONE , 자차전산]
+- [AiNf,    aifntp,   aifntp_p, /WEB-INF/classes, *DI_AI_WEBP, *DI_AI_WASP, 오사]
+- [AiOn,    aion,     aion_p,   /WEB-INF/classes, *DI_AI_WEBP, *DI_AI_WASP, 오사On]
+- [AiFnt,   aiauc,    null,     /WEB-INF/classes, *DI_AI_WEB,  *DI_AI_WAS , 오사Auc]
+- [Ncert,   ncert,    null,     /WEB-INF/classes, *DI_AI_WEB,  *DI_AI_WAS , 비인증]
+- [AhFnt,   ahir,     null,     /WEB-INF/classes, *DI_AI_WEB,  *DI_AI_WAS , 오토핸즈IR]
+# - [AiBch, batch,    null,     ""              , null      ,  *DI_AI_BAT , 배치]
+
+### PATHS - ALL
+LOCAL_PROJECT_PRE_PATH : D:\MY_WKS\
+MYWEB_LOG_PRE_PATH :     D:\MY_DOC\#LOG\ZzDeploy\
+BOOK_MARK_PATH :         D:\MY_WKS\ZzDeploy\WebApp\projectFileBookmark.txt
+WORKINGSET_XML_PATH :    D:\MY_WKS\.metadata\.plugins\org.eclipse.ui.workbench\workingsets.xml
+SERVER_BACKUP_PRE_PATH : D:\00 servers\

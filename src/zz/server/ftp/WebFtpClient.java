@@ -16,6 +16,7 @@ public interface WebFtpClient {
 	static public final String DOWNLOAD_FAIL_MKDIRS = "DOWNLOAD_FAIL_MKDIRS";
 	static public final String DOWNLOAD_FAIL_CREATEFILE = "DOWNLOAD_FAIL_CREATEFILE";
 
+	public void login(String id,String pw);
 	String download(String ftpPath,String backupPath,boolean doOverwrite) throws IOException;
 
 	boolean connect();

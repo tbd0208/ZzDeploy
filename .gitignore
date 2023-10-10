@@ -8,7 +8,7 @@
 /log/
 
 # Config file
-*.yml
+*.properties
 
 # Compiled class file
 *.class

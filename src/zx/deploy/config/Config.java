@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -21,30 +22,44 @@ import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 
+import zz.server.ftp.ApacheWebFtpClient;
+import zz.server.ftp.WebFtpClient;
+import zz.server.ftp.WebFtpClientInfo;
 import zz.util.QQMap;
 
 public class Config {
 
-	/* 로컬 설정 */
+	/* ### 로컬 설정 */
 	static final public String 
 		MYWEB_LOG_PRE_PATH // 로그패스
 		,SERVER_BACKUP_PRE_PATH // 백업위치
-		,BOOK_MARK_PATH
+		,BOOK_MARK_PATH // 북마크 패스 현재 안씀
 	;
 	
-	/* 로컬 프로젝트 정보 */
+	/* ### 로컬 프로젝트 정보 */
 	final public static String	
-		LOCAL_PROJECT_PRE_PATH
-		,WORKINGSET_XML_PATH
+		LOCAL_PROJECT_PRE_PATH // 로컬 프로젝트 폴더 경로
+		,WORKINGSET_XML_PATH // 이클립스 워킹셋 경로
 	;
 	
 	static final public QQMap PROJECT_INFO_MAP = new QQMap();
 	static{
-		LoaderOptions loaderOptions = new LoaderOptions();
 		SrcMngConfig config = null;
-		URL resource = Config.class.getClassLoader().getResource("../srcMng.yml");
 		try{
-			config = (SrcMngConfig)new Yaml(new Constructor(SrcMngConfig.class,loaderOptions)).load(new FileReader(resource.getPath()));
+			config = new Yaml().loadAs(new FileReader(Config.class.getClassLoader().getResource("../srcMng.yml").getPath()),SrcMngConfig.class);
+			HashMap<String,List<String>> ftpConfig = new Yaml().load(new FileReader(Config.class.getClassLoader().getResource("../ftp.yml.p").getPath()));
+			List<String> wsAdmFtpInfo = ftpConfig.get("WSADM");
+//			List<String> aiBatFtpInfo = ftpConfig.get("AIBAT");
+			for(WebFtpClient[] webFtpClients : config.ftpWebFtpClientsGroup){
+				for(WebFtpClient webFtpClient : webFtpClients){
+					webFtpClient.login(wsAdmFtpInfo.get(0),wsAdmFtpInfo.get(1));
+				}
+			}
+			for(WebFtpClient[] webFtpClients : config.sftpWebFtpClientsGroup){
+				for(WebFtpClient webFtpClient : webFtpClients){
+					webFtpClient.login(wsAdmFtpInfo.get(0),wsAdmFtpInfo.get(1));
+				}
+			}
 		}catch (FileNotFoundException e){
 			e.printStackTrace();
 		}

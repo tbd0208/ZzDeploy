@@ -14,6 +14,8 @@ import org.apache.commons.net.ftp.FTPConnectionClosedException;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
+import com.jcraft.jsch.JSchException;
+
 public class ApacheWebFtpClient implements WebFtpClient{
 	
 	private int result = RESULT_READY;
@@ -34,6 +36,16 @@ public class ApacheWebFtpClient implements WebFtpClient{
 	public ApacheWebFtpClient(String name,String ip,String id,String pw) {
 		this.name = name;
 		this.ip = ip;
+		this.id = id;
+		this.pw = pw;
+	}
+	
+	public ApacheWebFtpClient(String name,String ip) {
+		this.name = name;
+		this.ip = ip;
+	}
+	
+	public void login(String id,String pw) {
 		this.id = id;
 		this.pw = pw;
 	}
