@@ -75,4 +75,5 @@ const Table = {
 		}
 		return texts.join(' ');
 	}
+	
 }

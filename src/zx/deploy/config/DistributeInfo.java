@@ -49,4 +49,5 @@ public class DistributeInfo {
 		}
 		return o;
 	}
+	
 }
