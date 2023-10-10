@@ -124,7 +124,7 @@ public class MyServlet extends HttpServlet{
 					Object v = parameterMap.get(p.getName());
 					if(String.class==type) {
 						parameterValues[i] = v;
-					}else if(v==null) {
+					}else if(v==null || v.equals("")) {
 						
 					}else if(type==Integer.class){
 						parameterValues[i] = Integer.parseInt((String)v);
