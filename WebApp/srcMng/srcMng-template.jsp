@@ -110,6 +110,7 @@
 		<thead class='workingSet_head' id="{{id}}">
 			<tr>
 				<td class='w1 tac checkBoxAll'></td>
+				<th class="w0 tar projectName"></td>
 				<th class="w9 tal titleBar">
 					<span class='workingsetName'>{{name}}</span>
 				</td>
@@ -127,6 +128,7 @@
 		{{#each subList}}
 			<tr data-path="{{path}}" title="{{path}}" id="{{id}}">
 				<td class='tac extension extension_{{extenstion path}}' extension='{{extenstion path}}'></td>
+				<td></td>
 				<td class='tal file'><span class='oneUploadBtn'>{{pathLast path}}</span> {{#xif "checkResOpen(path)"}}<a class='open' href='{{path}}'>[OPEN]</a>{{/xif}}</td>
 				<td class='tac oneUploadBtn'><a href="#" class='dstrTxt'>UP</a></td>
 				<td class='tac btnDownFormServer'><span class='dstrTxt'>CD</span></td>

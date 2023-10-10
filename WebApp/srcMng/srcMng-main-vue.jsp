@@ -8,6 +8,6 @@
 var PROJECT_INFO_MAP = <%=new ObjectMapper().writeValueAsString(Config.PROJECT_INFO_MAP)%>;
 var DSTR_LEVELS = <%=new ObjectMapper().writeValueAsString(DistributeLevel.values())%>;
 var LOCAL_PROJECT_PRE_PATH = "<%=Config.LOCAL_PROJECT_PRE_PATH.replaceAll("\\\\","")%>";
-var PROJECT_NAMES = ["AiNf","AhRtc","AiOn","AiFnt","AiMgr","Carnote","AhFnt","ncert_admin"]; // for touch
+var PROJECT_NAMES = ["AhOffice","AiNf","AhRtc","AiOn","AiFnt","AiMgr","Carnote","AhFnt","ncert_admin"]; // for touch
 </script>
 <script src="srcMng-vue.js" type="text/javascript"></script>

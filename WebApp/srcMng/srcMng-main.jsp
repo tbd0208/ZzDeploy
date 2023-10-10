@@ -20,7 +20,7 @@
 <body>
 	<jsp:include page="/view/$inc/inc-layout-top.jsp"/>
 	<form id="sourceMng" class='flex-c dstrForm' :dstr="distributeLevel">
-		<div class='topMenu'>
+		<div id='topMenu' class='topMenu'>
 			<div class='dstrStatusBox'>
 				
 				<!-- MAIN ICON with DSTR MARKS -->
@@ -46,8 +46,8 @@
 			<div id='toggleTableColBox'>
 				<span>FIELD SHOW : </span> 
 <!-- 						<label><input type="checkbox">PATH</label> -->
-				<label title="카피다운"><input type="checkbox" ref="CD" name='fieldShow'>CD</label>
-				<label title="서버백업"><input type="checkbox" ref="BK" name='fieldShow'>BK</label>
+				<label title="카피다운"><input type="checkbox" ref="CD" name='fieldShow' id='fieldShow-CD' value='CD'>CD</label>
+				<label title="서버백업"><input type="checkbox" ref="BK" name='fieldShow' id='fieldShow-BK' value='BK'>BK</label>
 <%-- 						<label title="<%=Config.LOCAL_PROJECT_PRE_PATH%>"><input type="checkbox">LOCAL_PATH</label> --%>
 <!-- 						<label ><input type="checkbox">FTP_PATH</label> -->
 <%-- 						<label title="<%=Config.SERVER_BACKUP_PRE_PATH%>"><input type="checkbox">BACKUP_PATH</label> --%>
@@ -76,7 +76,7 @@
 		
 		<!-- ### CONTENTS -->
 		<div id='tabBox-00' class='flex-c list-body'>
-			<div class='tabHeadBox'>
+			<div class='tabHeadBox' id='tabHead-00'>
 				<div class='tabHead workingSet' v-on:click='onTabByWorkingset' tab-type='workingset'>
 					★ WORKING SET <span class='reload btnTxt' v-on:click=reload>[↻]</span>
 				</div>
@@ -85,7 +85,7 @@
 				</div> -->
 				
 				<!-- PROJECT NAME -->
-				<div v-for="(x,k) in {AhRtc:PROJECT_INFO_MAP['AhRtc']}" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='onTabByProject(x)' tab-type='project'>
+				<div v-for="(x,k,i) in PROJECT_INFO_MAP" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='onTabByProject(x,i)' tab-type='project'>
 					<span style='font-weight: bold;'>{{k}}</span>(<span>{{getServerProjectNames(x)}}</span>) <span class='reload btnTxt'>[↻]</span>
 					<!-- DSTR MARK -->
 					<div class='dstrMarkBox'>
@@ -95,28 +95,12 @@
 					</div>
 				</div>
 				
-				<div v-for="(x,k) in PROJECT_INFO_MAP" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='onTabByProject(x)'>
-					
-					<!-- PROJECT NAME -->
-					<span style='font-weight: bold;'>{{k}}</span>(<span>{{getServerProjectNames(x)}}</span>)
-					<span class='reload btnTxt'>[↻]</span>
-					
-					<!-- PROJECT DSTR MARK -->
-					<div class='dstrMarkBox'>
-						<template v-for="level in DSTR_LEVELS">
-							<span v-for="a,i in x.was.dstrMap[level]" class='dstrMark' :dstr='level' 
-								:title='(x.web?.dstrMap[level][i].ip||"NONE") +" / "+ x.was.dstrMap[level][i].ip'
-							></span>
-						</template>
-					</div>
-				</div>
 			</div>
-			<div class='tabBodyBox'>
-				<ws-tab :tabs="tabBox01" class='tabBody' :tab-index="0" path-type='/' id='tabBox-01'>## WORKING_SET ##</ws-tab>
-				<ws-tab :tabs="tabBox02" class='tabBody' :tab-index="1" path-type='\' id='tabBox-AhRtc'></ws-tab>
+			<div class='tabBodyBox' id='tabBody-00'>
+				<ws-tab :tabs="tabBox01" class='tabBody workingsetTabBox' path-type='/'>## WORKING_SET ##</ws-tab>
 <!-- 				<div class='tabBody' id='tabBox-01'>## WORKING_SET ##</div> -->
 	<!-- 			<div class='tabBody' id='tabBox-02'>## PROJECT BOOKMARK ##</div> -->
-				<div v-for="x in PROJECT_INFO_MAP" class='tabBody'>No Loading</div>
+				<ws-tab v-for="(x,k) in PROJECT_INFO_MAP" :key="k" :tabs="pjTabBox[k]" class='tabBody' path-type='\'>No Loading {{k}}</ws-tab>
 			</div>
 		</div>
 		
@@ -180,9 +164,12 @@
 	</template>
 	
 	<template id="wsTab">
-		<div>
+		<div v-if="tabs===null">
+			<slot></slot>
+		</div>
+		<div v-else>
 			<div class='tabHeadBox'>
-				<div v-for="x,i in tabs"  v-on:click="headClick(i)" :class='["tabHead",{on:tab===i}]'>{{x.name||x}}</div>
+				<div v-for="x,i in tabs" :class='["tabHead"]' v-on:click='headClick(i)'>{{x.name||x}}</div>
 			</div>
 			<div class='tabBodyBox'>
 				<div v-for="wsList,i in bodys" :class='["tabBody",{on:tab===i}]'>
