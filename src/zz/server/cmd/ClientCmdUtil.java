@@ -8,7 +8,8 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 
-public class LinuxCmdUtil{
+// for Linux Server
+public class ClientCmdUtil{
 
 	static public void sendCommend(String ip,String user,String pw,String cmd) throws JSchException,IOException{
 		JSch js = new JSch();

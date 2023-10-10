@@ -9,7 +9,7 @@ import com.jcraft.jsch.JSchException;
 import zx.deploy.config.Config;
 import zx.deploy.config.DistributeLevel;
 import zx.deploy.config.ProjectInfo;
-import zz.server.cmd.LinuxCmdUtil;
+import zz.server.cmd.ClientCmdUtil;
 import zz.server.ftp.WebFtpClient;
 
 public class SvrCmdController{
@@ -22,7 +22,7 @@ public class SvrCmdController{
 			WebFtpClient[] webFtpClients = projectInfo.was.get(d);
 			if(webFtpClients==null) continue;
 			for(WebFtpClient webFtpClient : webFtpClients){
-				LinuxCmdUtil.sendCommend(webFtpClient.getIp(),"wsadm","ai1234ai",cmd);
+				ClientCmdUtil.sendCommend(webFtpClient.getIp(),"wsadm","ai1234ai",cmd);
 			}
 		}
 		return OK("touch:"+distributeLevel + ", " + project);
