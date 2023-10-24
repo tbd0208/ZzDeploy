@@ -86,6 +86,7 @@
 				
 				<!-- PROJECT NAME -->
 				<div v-for="(x,k,i) in PROJECT_INFO_MAP" class='tabHead projectTab' :project-tab='k' :data-path='x.localPath' v-on:click='onTabByProject(x,i)' tab-type='project'>
+					<img class='project-favicon' :src='favicons[k]'>
 					<span style='font-weight: bold;'>{{k}}</span>(<span>{{getServerProjectNames(x)}}</span>) <span class='reload btnTxt'>[↻]</span>
 					<!-- DSTR MARK -->
 					<div class='dstrMarkBox'>

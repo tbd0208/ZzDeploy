@@ -9,5 +9,9 @@ var PROJECT_INFO_MAP = <%=new ObjectMapper().writeValueAsString(Config.PROJECT_I
 var DSTR_LEVELS = <%=new ObjectMapper().writeValueAsString(DistributeLevel.values())%>;
 var LOCAL_PROJECT_PRE_PATH = "<%=Config.LOCAL_PROJECT_PRE_PATH.replaceAll("\\\\","")%>";
 var PROJECT_NAMES = ["AhOffice","AiNf","AhRtc","AiOn","AiFnt","AiMgr","Carnote","AhFnt","ncert_admin"]; // for touch
+const FAVICONS = {
+	AhRtc : 'https://retail.autoinside.co.kr/images/favicon/ahrtc-favicon-16x16.png'
+	,AhOffice : 'https://ahoffice.autoinside.co.kr/favicon.ico'
+}
 </script>
 <script src="srcMng-vue.js" type="text/javascript"></script>

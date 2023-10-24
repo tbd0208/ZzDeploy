@@ -120,6 +120,7 @@ var app = new Vue({
 			,tab : 0
 			,tabBox01 : []
 			,pjTabBox : {}
+			,favicons : FAVICONS
 		}
 	}
 	

@@ -58,12 +58,12 @@ label{}
 /* #tabBox-00>.tabHeadBox>.workingSet.on{background: #fff;color: #000;} */
 /* #tabBox-00>.tabHeadBox>.projectTab[project-tab=AhRtc]{background: #333;color: #eee;padding: 4px;border-radius: 8px;outline:2px solid red;outline-offset:-6px;} */
 /* #tabBox-00>.tabHeadBox>.projectTab[project-tab=AhRtc].on{background: #000;color: #fff;} */
-
+/* 
 #tabBox-00>.tabHeadBox>.projectTab[project-tab=AhRtc]:BEFORE{content:'■ ';color:red;text-shadow: 1px 1px #fff;}
 #tabBox-00>.tabHeadBox>.projectTab[project-tab=AiNf]:BEFORE{content:'● ';color:#aedbff;}
 #tabBox-00>.tabHeadBox>.projectTab[project-tab=AiFnt]:BEFORE{content:'● ';color:#005ca5;}
 #tabBox-00>.tabHeadBox>.projectTab[project-tab=AiMgr]:BEFORE{content:'■ ';color:#005ca5;text-shadow: 1px 1px #fff;}
-#tabBox-00>.tabHeadBox>.projectTab[project-tab=SCAR02]:BEFORE{content:'■ ';color:VIOLET;text-shadow: 1px 1px #fff;}
+#tabBox-00>.tabHeadBox>.projectTab[project-tab=SCAR02]:BEFORE{content:'■ ';color:VIOLET;text-shadow: 1px 1px #fff;} */
 
 #tabBox-00>.tabHeadBox>*:hover{box-shadow: inset 0 -2px #ccc;}
 #tabBox-00>.tabHeadBox>*.on{box-shadow: inset 0 -2px #fff;color: #fff;}
@@ -183,5 +183,5 @@ html.m #serverInfo{display: none;}
 	font-size: 12px;letter-spacing: 1px;
 }
 
-
+.project-favicon{vertical-align: middle;}
 
