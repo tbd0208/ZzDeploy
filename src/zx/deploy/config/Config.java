@@ -47,7 +47,7 @@ public class Config {
 		SrcMngConfig config = null;
 		try{
 			config = new Yaml().loadAs(new FileReader(Config.class.getClassLoader().getResource("../srcMng.yml").getPath()),SrcMngConfig.class);
-			HashMap<String,List<String>> ftpConfig = new Yaml().load(new FileReader(Config.class.getClassLoader().getResource("../ftp.yml.p").getPath()));
+			HashMap<String,List<String>> ftpConfig = new Yaml().load(new FileReader(Config.class.getClassLoader().getResource("../ftp.yml.properties").getPath()));
 			List<String> wsAdmFtpInfo = ftpConfig.get("WSADM");
 //			List<String> aiBatFtpInfo = ftpConfig.get("AIBAT");
 			for(WebFtpClient[] webFtpClients : config.ftpWebFtpClientsGroup){
